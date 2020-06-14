@@ -41,11 +41,11 @@ item_info = {
     [3]={id=4181,japanese='呪符デジョン',english='"Instant Warp"'}}
 
 function gs_disable_slot(slot)
-	windower.send_command('gs disable '..res_slots[slot].en:gsub(' ','_'))
+    windower.send_command('gs disable '..res_slots[slot].en:gsub(' ','_'))
 end
 
 function gs_enable_slot(slot)
-	windower.send_command('wait 3;gs enable '..res_slots[slot].en:gsub(' ','_'))
+    windower.send_command('wait 3;gs enable '..res_slots[slot].en:gsub(' ','_'))
 end
 
 function search_item()
@@ -70,6 +70,9 @@ function search_item()
             local usable = recast and recast == 0
             log(stats[lang],usable and '' or recast and recast..' sec recast.')
             if usable or ext.type == 'General' then
+                if windower.to_shift_jis(stats[lang]) == '"Warp Ring"' or windower.to_shift_jis(stats[lang]) == '"Warp Cudgel"' then
+                    gs_disable_slot(stats.slot)
+                end
                 if enchant and item.status ~= 5 then --not equipped
                     set_equip(item.slot,stats.slot,item.bag)
                     log_flag = true
@@ -85,13 +88,13 @@ function search_item()
                         end
                     until ext.usable or delay > 10
                 end
-				if windower.to_shift_jis(stats[lang]) == '"Warp Ring"' or '"Warp Cudgel"' then
-					gs_disable_slot(stats.slot)
-				end
+                if windower.to_shift_jis(stats[lang]) == '"Warp Ring"' or windower.to_shift_jis(stats[lang]) == '"Warp Cudgel"' then
+                    gs_disable_slot(stats.slot)
+                end
                 windower.chat.input('/item '..windower.to_shift_jis(stats[lang])..' <me>')
-				if windower.to_shift_jis(stats[lang]) == '"Warp Ring"' or '"Warp Cudgel"' then
-					gs_enable_slot(stats.slot)
-				end
+                if windower.to_shift_jis(stats[lang]) == '"Warp Ring"' or '"Warp Cudgel"' then
+                    gs_enable_slot(stats.slot)
+                end
                 break;
             end
         else
