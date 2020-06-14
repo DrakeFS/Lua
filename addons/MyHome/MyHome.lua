@@ -39,6 +39,7 @@ item_info = {
     [1]={id=28540,japanese='デジョンリング',english='"Warp Ring"',slot=13},
     [2]={id=17040,japanese='デジョンカジェル',english='"Warp Cudgel"',slot=0},
     [3]={id=4181,japanese='呪符デジョン',english='"Instant Warp"'}}
+gs_dis = false
 
 function gs_disable_slot(slot)
     windower.send_command('gs disable '..res_slots[slot].en:gsub(' ','_'))
@@ -70,7 +71,7 @@ function search_item()
             local usable = recast and recast == 0
             log(stats[lang],usable and '' or recast and recast..' sec recast.')
             if usable or ext.type == 'General' then
-                if stats[lang] == '"Warp Ring"' or stats[lang] == '"Warp Cudgel"' then
+                if gs_dis and (stats[lang] == '"Warp Ring"' or stats[lang] == '"Warp Cudgel"') then
                     gs_disable_slot(stats.slot)
                 end
                 if enchant and item.status ~= 5 then --not equipped
@@ -89,7 +90,7 @@ function search_item()
                     until ext.usable or delay > 10
                 end
                 windower.chat.input('/item '..windower.to_shift_jis(stats[lang])..' <me>')
-                if stats[lang] == '"Warp Ring"' or stats[lang] == '"Warp Cudgel"' then
+                if gs_dis and (stats[lang] == '"Warp Ring"' or stats[lang] == '"Warp Cudgel"') then
                     gs_enable_slot(stats.slot)
                 end
                 break;
@@ -106,6 +107,14 @@ windower.register_event('addon command',function(...)
     if cmd == 'all' then
         windower.chat.input('//myhome')
         windower.send_ipc_message('myhome')
+	elseif cmd == 'gsdisable' then
+        if gs_dis then
+            gs_dis = false
+            log('GearSwap slot disable off')
+        else
+            gs_dis = 'disable'
+            log('GearSwap slot disable on')
+        end
     else
     local player = windower.ffxi.get_player()
     local get_spells = windower.ffxi.get_spells()
