@@ -70,7 +70,7 @@ function search_item()
             local usable = recast and recast == 0
             log(stats[lang],usable and '' or recast and recast..' sec recast.')
             if usable or ext.type == 'General' then
-                if windower.to_shift_jis(stats[lang]) == '"Warp Ring"' or windower.to_shift_jis(stats[lang]) == '"Warp Cudgel"' then
+                if stats[lang] == '"Warp Ring"' or stats[lang] == '"Warp Cudgel"' then
                     gs_disable_slot(stats.slot)
                 end
                 if enchant and item.status ~= 5 then --not equipped
@@ -88,11 +88,8 @@ function search_item()
                         end
                     until ext.usable or delay > 10
                 end
-                if windower.to_shift_jis(stats[lang]) == '"Warp Ring"' or windower.to_shift_jis(stats[lang]) == '"Warp Cudgel"' then
-                    gs_disable_slot(stats.slot)
-                end
                 windower.chat.input('/item '..windower.to_shift_jis(stats[lang])..' <me>')
-                if windower.to_shift_jis(stats[lang]) == '"Warp Ring"' or '"Warp Cudgel"' then
+                if stats[lang] == '"Warp Ring"' or stats[lang] == '"Warp Cudgel"' then
                     gs_enable_slot(stats.slot)
                 end
                 break;
