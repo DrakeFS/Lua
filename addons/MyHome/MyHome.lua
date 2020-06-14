@@ -71,7 +71,7 @@ function search_item()
             local usable = recast and recast == 0
             log(stats[lang],usable and '' or recast and recast..' sec recast.')
             if usable or ext.type == 'General' then
-                if gs_dis and (stats[lang] == '"Warp Ring"' or stats[lang] == '"Warp Cudgel"') then
+                if gs_dis and (stats.id == 28540 or stats.id == 17040) then
                     gs_disable_slot(stats.slot)
                 end
                 if enchant and item.status ~= 5 then --not equipped
@@ -90,7 +90,7 @@ function search_item()
                     until ext.usable or delay > 10
                 end
                 windower.chat.input('/item '..windower.to_shift_jis(stats[lang])..' <me>')
-                if gs_dis and (stats[lang] == '"Warp Ring"' or stats[lang] == '"Warp Cudgel"') then
+                if gs_dis and (stats.id == 28540 or stats.id == 17040) then
                     gs_enable_slot(stats.slot)
                 end
                 break;
